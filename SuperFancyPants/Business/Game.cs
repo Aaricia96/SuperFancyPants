@@ -105,5 +105,11 @@ namespace SuperFancyPants.Business
             _currentRoom.PrintInfo();
         }
 
+        public void End()
+        {
+            Console.WriteLine("");
+            Console.WriteLine("You died.");
+        }
+
     }
 }

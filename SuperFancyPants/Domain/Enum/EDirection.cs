@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SuperFancyPants.Domain.Enum
-{
-    class EDirection
+﻿namespace SuperFancyPants.Domain.Enum
+{    public enum EDirection
     {
+        North,
+        East,
+        South,
+        West,
+        Up,
+        Down
     }
 }

@@ -23,6 +23,10 @@ namespace SuperFancyPants.Factory
                     {
                         return new Dalek();
                     }
+                case EMonster.Cybermen:
+                    {
+                        return new Cybermen();
+                    }
             }
             
             return null;

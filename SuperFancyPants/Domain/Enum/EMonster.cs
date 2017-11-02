@@ -8,6 +8,7 @@ namespace SuperFancyPants.Domain.Enum
     {
         WeepingAngel,
         Silence,
-        Dalek
+        Dalek,
+        Cybermen
     }
 }

@@ -7,6 +7,7 @@ namespace SuperFancyPants.Domain.Enum
     public enum EMonster
     {
         WeepingAngel,
-        Silence
+        Silence,
+        Dalek
     }
 }

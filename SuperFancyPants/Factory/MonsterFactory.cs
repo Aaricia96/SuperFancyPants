@@ -19,6 +19,10 @@ namespace SuperFancyPants.Factory
                     {
                         return new WeepingAngel();
                     }
+                case EMonster.Dalek:
+                    {
+                        return new Dalek();
+                    }
             }
             
             return null;

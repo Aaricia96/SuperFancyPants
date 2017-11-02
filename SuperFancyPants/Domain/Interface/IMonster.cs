@@ -6,11 +6,7 @@ namespace SuperFancyPants.Domain.Interface
 {
     public interface IMonster
     {
-        int Health { get; set; }
-
         string Reaction { get; }
-
-        void Fight();
 
         string PrintMessage();
 

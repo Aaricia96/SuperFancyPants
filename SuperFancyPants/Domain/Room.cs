@@ -14,6 +14,8 @@ namespace SuperFancyPants.Domain
 
         public bool Finish { get; set; }
 
+        public bool MonsterAppearing { get; set; }
+
         public void PrintInfo()
         {
             Console.WriteLine($"Currently in {Name}");

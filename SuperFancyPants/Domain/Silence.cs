@@ -10,12 +10,19 @@ namespace SuperFancyPants.Domain
 
         public Silence()
         {
-            Health = 10;
+            //Health = 10;
         }
 
         public void Fight()
         {
             Health -= 3;
         }
+
+        public string PrintMessage()
+        {
+            return "A wild silence appeared.";
+        }
+
+        public string Name { get { return "Silence"; } }
     }
 }

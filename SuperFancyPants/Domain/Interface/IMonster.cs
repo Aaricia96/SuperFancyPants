@@ -11,5 +11,9 @@ namespace SuperFancyPants.Domain.Interface
         string Reaction { get; }
 
         void Fight();
+
+        string PrintMessage();
+
+        string Name { get; }
     }
 }

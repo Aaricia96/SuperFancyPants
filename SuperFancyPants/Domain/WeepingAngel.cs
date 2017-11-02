@@ -10,12 +10,19 @@ namespace SuperFancyPants.Domain
 
         public WeepingAngel()
         {
-            Health = 5;
+            //Health = 5;
         }
 
         public void Fight()
         {
             Health -= 2;
         }
+
+        public string PrintMessage()
+        {
+            return "A wild weeping angel appeared.";
+        }
+
+        public string Name { get { return "Weeping Angel"; } }
     }
 }

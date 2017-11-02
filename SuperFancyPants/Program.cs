@@ -1,5 +1,6 @@
 ﻿using SuperFancyPants.Business;
 using SuperFancyPants.Domain.Enum;
+using SuperFancyPants.Domain.Interface;
 using System;
 
 namespace SuperFancyPants
@@ -10,13 +11,17 @@ namespace SuperFancyPants
         {
             var game = new Game();
             var alive = true;
+            var won = false;
 
             game.StartGame();
 
             while(alive)
             {
-                game.DescribeLocation();
-
+                if (game.ShouldEnd())
+                {
+                    won = true;
+                    break;
+                }
                 game.PrintName();
                 var input = Console.ReadLine();
                 string action = "";
@@ -38,6 +43,7 @@ namespace SuperFancyPants
                             if (Enum.TryParse<EDirection>(arguments, true, out direction))
                             {
                                 game.Move(direction);
+                                game.DescribeLocation();
                             }
                             else
                             {
@@ -68,10 +74,63 @@ namespace SuperFancyPants
                         }
                 }
 
+                if (game.MonsterNeeded())
+                {
+                    IMonster monster = game.CreateMonster();
+                    Console.WriteLine("");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"{monster.PrintMessage()}");
+                    Console.WriteLine("");
+                    Console.WriteLine($"What should you do know to fight the {monster.Name}?");
+                    Console.WriteLine("");
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    game.PrintName();
+                    var fightMethod = Console.ReadLine();
+                    if(!fightMethod.ToLower().Equals(monster.Reaction))
+                    {
+                        Console.WriteLine("");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"This was not a proper response to the {monster.Name}.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        alive = false;
+                    } else
+                    {
+                        Console.WriteLine("");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("You can now fight this horrible creature.");
+                        Console.WriteLine("");
+                        Console.ForegroundColor = ConsoleColor.White;
+
+                        game.PrintName();
+                        if(Console.ReadLine().Equals("fight"))
+                        {
+                            Console.WriteLine("");
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine($"The {monster.Name} was beaten.");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else
+                        {
+                            Console.WriteLine("");
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine($"You should've fought against the {monster.Name}");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            alive = false;
+                        }
+                    }
+                }
 
             }
 
-            game.End();
+            if (!won)
+            {
+                game.End();
+            } else
+            {
+                game.Won();
+            }
+            
 
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey();

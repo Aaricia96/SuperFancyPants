@@ -1,28 +1,27 @@
 ﻿using SuperFancyPants.Domain;
 using SuperFancyPants.Domain.Enum;
 using SuperFancyPants.Domain.Interface;
+using System;
+
 namespace SuperFancyPants.Factory
 {
     public class MonsterFactory
     {
         public IMonster CreateMonster(EMonster type)
         {
-            IMonster monster = null;
-
-            switch(type)
+            switch (type)
             {
                 case EMonster.Silence:
                     {
-                        monster = new Silence();
-                        break;
+                        return new Silence();
                     }
                 case EMonster.WeepingAngel:
                     {
-                        monster = new WeepingAngel();
-                        break;
+                        return new WeepingAngel();
                     }
             }
-            return monster;
+            
+            return null;
         } 
     }
 }

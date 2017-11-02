@@ -1,5 +1,7 @@
 ﻿using SuperFancyPants.Domain;
 using SuperFancyPants.Domain.Enum;
+using SuperFancyPants.Domain.Interface;
+using SuperFancyPants.Factory;
 using System;
 
 namespace SuperFancyPants.Business
@@ -7,26 +9,25 @@ namespace SuperFancyPants.Business
     public class Game
     {
         private Room _currentRoom;
+        private IMonster _monster;
 
         public string Name { get; private set; }
 
         public void StartGame()
         {
             SetUp();
-
             Initialize();
-
-            //Start();
         }
 
         private void SetUp()
         {
             var entrance = new Room { Description = "I hope there aren't any creepy things inside this house.", Name = "entrance" };
-            var livingRoom = new Room { Description = "Come along, Pond.", Name = "living room" };
+            var livingRoom = new Room { Description = "Come along, Pond.", Name = "living room", MonsterAppearing = true };
             var diner = new Room { Description = "Geronimo!", Name = "diner" };
-            var kitchen = new Room { Description = "Let's have some fish with custard.", Name = "kitchen" };
+            var kitchen = new Room { Description = "Let's have some fish with custard.", Name = "kitchen", MonsterAppearing=true };
             var hallway = new Room { Description = "We've moved up the stairs.", Name = "hallway" };
             var bedRoom = new Room { Description = "Bowties are cool.", Name = "bedroom" };
+            var garden = new Room { Description = "Ah, some fresh air.", Name = "garden", Finish = true };
 
             entrance.ConnectedRooms.Add(EDirection.North, livingRoom);
 
@@ -38,6 +39,7 @@ namespace SuperFancyPants.Business
             diner.ConnectedRooms.Add(EDirection.West, livingRoom);
 
             kitchen.ConnectedRooms.Add(EDirection.South, diner);
+            kitchen.ConnectedRooms.Add(EDirection.North, garden);
 
             hallway.ConnectedRooms.Add(EDirection.Down, livingRoom);
             hallway.ConnectedRooms.Add(EDirection.East, bedRoom);
@@ -108,7 +110,42 @@ namespace SuperFancyPants.Business
         public void End()
         {
             Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("You died.");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public bool MonsterNeeded()
+        {
+            if (_currentRoom.MonsterAppearing)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public IMonster CreateMonster()
+        {
+            Array values = Enum.GetValues(typeof(EMonster));
+            Random random = new Random();
+            EMonster randomMonster = (EMonster)values.GetValue(random.Next(values.Length));
+            MonsterFactory factory = new MonsterFactory();
+            _monster = factory.CreateMonster(randomMonster);
+            return _monster;
+        }
+
+        public bool ShouldEnd()
+        {
+            return _currentRoom.Finish;
+        }
+
+        public void Won()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("");
+            Console.WriteLine("CONGRATULATIONS, YOU BEAT THE GAME.");
+            Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
     }
